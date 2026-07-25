@@ -3,10 +3,9 @@
 
 
 ## 🚀 Features
-  
-## 📦 Build & Installation
+26-7-26 WIP
 
-•	See this link for Wall-E Assembly Instructions and Videos by Chillbasket (https://wired.chillibasket.com/3d-printed-wall-e/) 
+## 📦 Build & Installation
 
 ## 🛠️ Usage
 
