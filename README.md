@@ -1,6 +1,6 @@
 # Precious Plastic - ZoE Shredder Extruder PID
+![](https://github.com/KiwiPlastic/PP-ZoE-Shredder-Extractor-PID/blob/master/Images/ZoE.jfif)
 
-![Walle-E Chillibasket](https://github.com/KiwiPlastic/Wall-E_ESP32-C3_BLE_Gamepad_Ctrl/blob/main/Images/Chillibasket1.jpg?raw=true)
 
 ## 🚀 Features
   
