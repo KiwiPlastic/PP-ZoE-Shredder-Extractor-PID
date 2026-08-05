@@ -1,0 +1,114 @@
+Gen Notes to get ZoE working
+
+RPi 3B with WifI and bluetooth
+Host: ZZPOE
+UN: richn
+PW: richn01
+SSH: on
+
+Can copy files via WinSCP
+
+#Overclocking parameters
+gpu_mem=256
+kernel=zImage
+arm_freq=1375
+core_freq=525
+gpu_freq=525
+over_voltage=3
+force_turbo=1
+sdram_freq=625
+sdram_schmoo=0x02000020
+over_voltage_sdram_p=4
+over_voltage_sdram_i=3
+over_voltage_sdram_c=3
+
+dtparam=sd_overclock=84    // this can be 100 for class 10 sd card
+
+
+======================
+#Display CPU Temp
+vcgencmd measure_temp
+
+#Display CPU Freq
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+
+===============================
+Bash files
+copieded bdx then edited
+To Execute: ./filename
+To finish in working dir: ../filename
+
+Start of bash file:
+#!/bin/bash
+
+===========================
+Virtual key board: matchbox-keyboard
+sudo apt install matchbox-keyboard
+
+====================== Vertual Environment=====
+mkdir zoe2
+python3 -m venv zoe2
+source zoe2/bin/activate
+
+=====================
+libs required
+pyfirmata
+gpiozero switched to RPiGPIO
+
+==========================
+
+dtoverlay=maxtherm,spi0-1,max6675
+
+SPI0 GPIO pins
+GPIO 7 CE1
+GPIO 8 CE0
+GPIO 9 MISO
+GPIO 10 MOSI
+GPIO 11 SCLK
+
+dtoverlay=spi1-3cs
+SPI1 (3 x Chip Select)GPIO pins
+GPIO 16 CE2
+GPIO 17 CE1
+GPIO 18 CE0
+GPIO 19 MISO
+GPIO 20 MOSI
+GPIO 21 SCLK
+
+
+
+
+//==========================================
+
+#!/usr/bin/python3
+
+# max6675 spi0-1
+# /sys/bus/iio/devices/iio:device1/in_temp_scale
+# /sys/bus/iio/devices/iio:device1/in_temp_raw
+
+from time import sleep
+while True:
+
+    with open('/sys/bus/iio/devices/iio:device1/in_temp_scale', 'r') as dev1scale:
+                scale1 = float(dev1scale.read())
+
+    with open('/sys/bus/iio/devices/iio:device1/in_temp_raw', 'r') as dev1raw:
+                raw1 = float(dev1raw.read())
+                dev1temp = (scale1 * raw1) / 1000.0
+
+    print ("Max6675: ", dev1temp)
+    sleep(2)
+
+//==================================
+
+// show SPI kernal modules
+lsmod 			
+
+lsmode | grep spi
+
+ls -1 /dev/spidev*
+returns: /dev/spidev0.1
+
+shows /dev/spidev0.0, /dev/spidev0.1
+where the first numbwre is SPI bus (0 for SPI0) 
+second number represents CE line eg 1 for CE1
